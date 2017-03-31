@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets
 from api.serializers import UserSerializer
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny
 
 
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
+class RegistrationApiView(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [AllowAny]
