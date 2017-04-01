@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from rest_framework import routers
 from rest_framework_jwt.views import obtain_jwt_token
 from api.views import RegistrationApiView, WallApiView
 
