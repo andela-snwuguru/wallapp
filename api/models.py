@@ -8,6 +8,8 @@ class Wall(models.Model):
     user = models.ForeignKey(User, related_name="walls")
     message = models.TextField()
     image = models.CharField(max_length=255, blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.message

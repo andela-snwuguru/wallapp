@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
-from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from api.models import Wall
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'is_active', 'first_name', 'last_name', 'password')
@@ -24,3 +25,17 @@ class UserSerializer(serializers.ModelSerializer):
         instance.set_password(validated_data.get('password'))
         instance.save()
         return instance
+
+
+class WallSerializer(ModelSerializer):
+    user = SerializerMethodField()
+
+    class Meta:
+        model = Wall
+        fields = [
+            'id', 'message', 'user', 'image', 'date_created', 'date_modified',
+        ]
+        extra_kwargs = {'date_created': {'read_only': True}, 'date_modified': {'read_only': True}}
+
+    def get_user(self, obj):
+        return UserSerializer(obj.user).data
