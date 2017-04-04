@@ -19,7 +19,7 @@ class WallApiView(ListCreateAPIView):
     Creates new wall if you are doing a POST request.
     """
 
-    queryset = Wall.objects.all()
+    queryset = Wall.objects.order_by('-date_created').all()
     serializer_class = WallSerializer
     permission_classes = [AllowAllForGet]
 
