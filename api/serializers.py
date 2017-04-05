@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
 from api.models import Wall, PostLike
 
 
@@ -10,7 +10,6 @@ class UserSerializer(ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        print(validated_data)
         user = User(
             username=validated_data.get('username'),
             email=validated_data.get('email'),
@@ -44,12 +43,12 @@ class WallSerializer(ModelSerializer):
     def get_likes(self, obj):
         likes = obj.likes.all()
         if likes:
-            return WallLikeSerializer(likes, many=True).data
+            return PostLikeSerializer(likes, many=True).data
 
         return []
 
 
-class WallLikeSerializer(ModelSerializer):
+class PostLikeSerializer(ModelSerializer):
     user = SerializerMethodField()
 
     class Meta:

@@ -124,6 +124,6 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER':
     'api.utils.jwt_response_payload_handler',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1000)
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=100000)
 }
 CORS_ORIGIN_ALLOW_ALL = True;

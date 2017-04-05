@@ -21,5 +21,8 @@ class PostLike(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        unique_together = (('user', 'wall'),)
+
     def __str__(self):
         return self.wall.message
