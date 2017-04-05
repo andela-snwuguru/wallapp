@@ -1,9 +1,12 @@
 from django.contrib.auth.models import User
-from api.serializers import UserSerializer, WallSerializer
+from api.serializers import UserSerializer, WallSerializer, PostLikeSerializer
 from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.permissions import AllowAny
 from api.permissions import AllowAllForGet
-from api.models import Wall
+from api.models import Wall, PostLike
+from .utils import get_object_by_api_view
+from rest_framework.serializers import ValidationError
+
 
 
 class RegistrationApiView(CreateAPIView):
@@ -26,3 +29,27 @@ class WallApiView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         return serializer
+
+
+class PostLikeApiView(ListCreateAPIView):
+
+    """
+    Returns list of post likes if you are doing a GET request.
+    Creates new post like if you are doing a POST request.
+    """
+
+    serializer_class = PostLikeSerializer
+    permission_classes = [AllowAllForGet]
+
+    def perform_create(self, serializer):
+        post = get_object_by_api_view(self, Wall)
+        like = PostLike.objects.filter(user=self.request.user, wall=post)
+        if like:
+            raise ValidationError({"error":"Integrity constraint"})
+
+        serializer.save(user=self.request.user, wall=post)
+        return serializer
+
+    def get_queryset(self):
+        post = get_object_by_api_view(self, Wall)
+        return PostLike.objects.filter(wall=post)
