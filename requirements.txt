@@ -17,3 +17,4 @@ PyJWT==1.4.2
 pyparsing==2.2.0
 python-env==1.0.0
 six==1.10.0
+whitenoise==3.3.0
