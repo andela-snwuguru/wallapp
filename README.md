@@ -23,3 +23,4 @@ rename .env.example to .env and change the values to your local database credent
 - https://wallapi.herokuapp.com/api/register/ POST
 - https://wallapi.herokuapp.com/api/walls/ POST, GET
 - https://wallapi.herokuapp.com/api/walls/1/likes/ POST, GET
+- https://wallapi.herokuapp.com/api/walls/1/comments/ POST, GET
