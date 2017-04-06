@@ -16,3 +16,10 @@ To install the build locally. Create and activate a virtual environment.
 ## Setting up the configurations
 
 rename .env.example to .env and change the values to your local database credentials
+
+## Available endpoints
+
+- https://wallapi.herokuapp.com/api/login/ POST
+- https://wallapi.herokuapp.com/api/register/ POST
+- https://wallapi.herokuapp.com/api/walls/ POST, GET
+- https://wallapi.herokuapp.com/api/walls/1/likes/ POST, GET

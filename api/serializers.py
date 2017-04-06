@@ -50,13 +50,17 @@ class WallSerializer(ModelSerializer):
 
 class PostLikeSerializer(ModelSerializer):
     user = SerializerMethodField()
+    wall_id = SerializerMethodField()
 
     class Meta:
         model = PostLike
         fields = [
-            'id', 'user', 'date_created', 'date_modified',
+            'id', 'user', 'wall_id', 'date_created', 'date_modified',
         ]
         extra_kwargs = {'date_created': {'read_only': True}, 'date_modified': {'read_only': True}}
 
     def get_user(self, obj):
         return UserSerializer(obj.user).data
+
+    def get_wall_id(self, obj):
+        return obj.wall.id
