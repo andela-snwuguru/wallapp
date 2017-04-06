@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
-from api.models import Wall, PostLike
+from api.models import Wall, PostLike, PostComment
 
 
 class UserSerializer(ModelSerializer):
@@ -29,11 +29,12 @@ class UserSerializer(ModelSerializer):
 class WallSerializer(ModelSerializer):
     user = SerializerMethodField()
     likes = SerializerMethodField()
+    comments = SerializerMethodField()
 
     class Meta:
         model = Wall
         fields = [
-            'id', 'message', 'user', 'image', 'likes', 'date_created', 'date_modified',
+            'id', 'message', 'user', 'image', 'likes', 'comments', 'date_created', 'date_modified',
         ]
         extra_kwargs = {'date_created': {'read_only': True}, 'date_modified': {'read_only': True}}
 
@@ -47,6 +48,13 @@ class WallSerializer(ModelSerializer):
 
         return []
 
+    def get_comments(self, obj):
+        comments = obj.comments.all()
+        if comments:
+            return PostCommentSerializer(comments, many=True).data
+
+        return []
+
 
 class PostLikeSerializer(ModelSerializer):
     user = SerializerMethodField()
@@ -56,6 +64,24 @@ class PostLikeSerializer(ModelSerializer):
         model = PostLike
         fields = [
             'id', 'user', 'wall_id', 'date_created', 'date_modified',
+        ]
+        extra_kwargs = {'date_created': {'read_only': True}, 'date_modified': {'read_only': True}}
+
+    def get_user(self, obj):
+        return UserSerializer(obj.user).data
+
+    def get_wall_id(self, obj):
+        return obj.wall.id
+
+
+class PostCommentSerializer(ModelSerializer):
+    user = SerializerMethodField()
+    wall_id = SerializerMethodField()
+
+    class Meta:
+        model = PostComment
+        fields = [
+            'id', 'user', 'wall_id', 'message', 'date_created', 'date_modified',
         ]
         extra_kwargs = {'date_created': {'read_only': True}, 'date_modified': {'read_only': True}}
 
