@@ -26,3 +26,14 @@ class PostLike(models.Model):
 
     def __str__(self):
         return self.wall.message
+
+
+class PostComment(models.Model):
+    user = models.ForeignKey(User, related_name="comments")
+    wall = models.ForeignKey(Wall, related_name="comments")
+    message = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.message
