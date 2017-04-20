@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
 from api.models import Wall, PostLike, PostComment
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class UserSerializer(ModelSerializer):
@@ -18,6 +20,17 @@ class UserSerializer(ModelSerializer):
         )
         user.set_password(validated_data.get('password'))
         user.save()
+        try:
+            send_mail(
+                'Welcome to The Wall',
+                'Hello %s, Thank you for joining us.' % user.username,
+                settings.FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+        except:
+            pass
+
         return user
 
     def update(self, instance, validated_data):

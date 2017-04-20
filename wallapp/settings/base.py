@@ -126,4 +126,5 @@ JWT_AUTH = {
     'api.utils.jwt_response_payload_handler',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=100000)
 }
-CORS_ORIGIN_ALLOW_ALL = True;
+CORS_ORIGIN_ALLOW_ALL = True
+FROM_EMAIL = "noreply@wallfront.herokuapp.com"
