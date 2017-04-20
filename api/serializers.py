@@ -29,7 +29,7 @@ class UserSerializer(ModelSerializer):
                 fail_silently=False,
             )
         except:
-            pass
+            print("email failed")
 
         return user
 
