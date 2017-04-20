@@ -127,4 +127,10 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=100000)
 }
 CORS_ORIGIN_ALLOW_ALL = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 FROM_EMAIL = "noreply@wallfront.herokuapp.com"
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = dotenv.get('SMTP_EMAIL')
+EMAIL_HOST_PASSWORD = dotenv.get('SMTP_PASSWORD')
+EMAIL_PORT = 587
